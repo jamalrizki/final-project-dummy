@@ -7,15 +7,6 @@
   --brown-light: rgba(140, 110, 99, 1);
 }
 
-@font-face {
-  font-family: 'gotham';
-  src: url('/font/GothamMedium.ttf');
-}
-
-@font-face {
-  font-family: 'gotham-light';
-  src: url('/font/GothamLight.ttf');
-}
 
 
 body {
