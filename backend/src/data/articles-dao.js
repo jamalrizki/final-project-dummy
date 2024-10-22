@@ -9,8 +9,17 @@ export async function getArticles() {
 export async function addArticles(article) {
   const db = await getDatabase();
   const response = await db.run(
-    "INSERT INTO Articles (title, description, content, image, date, username, userAvatar) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [article.title, article.description, article.content, article.image, article.date, article.username, article.userAvatar]
+    "INSERT INTO Articles (title, description, content, image, userId, username, userAvatar, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      article.title, 
+      article.description, 
+      article.content, 
+      article.image,
+      article.userId,
+      article.username,
+      article.userAvatar,
+      article.date
+    ]
   );
   return {
     id: response.lastID,
@@ -18,14 +27,15 @@ export async function addArticles(article) {
     description: article.description,
     content: article.content,
     image: article.image,
-    date: article.date,
+    userId: article.userId,
     username: article.username,
-    userAvatar: article.userAvatar
+    userAvatar: article.userAvatar,
+    date: article.date
   };
 }
 
 export async function getArticleById(id) {
-    const db = await getDatabase();
-    const article = await db.get("SELECT * FROM Articles WHERE id = ?", id);
-    return article;
-  }
+  const db = await getDatabase();
+  const article = await db.get("SELECT * FROM Articles WHERE id = ?", id);
+  return article;
+}

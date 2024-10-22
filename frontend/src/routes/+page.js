@@ -1,14 +1,20 @@
+
+
 import { PUBLIC_API_BASE_URL } from "$env/static/public";
 
 const ARTICLES_URL = `${PUBLIC_API_BASE_URL}/articles`;
 
-/**
- * TODO Load your own data in the homepage here.
- *
- * You may need other *.js files with other load functions too.
- */
-export async function load({ fetch }) {
+export async function load({ fetch, parent }) {
+  // Get the parent layout data which includes user info
+  const { user, isLoggedIn } = await parent();
+  
+  // Fetch articles
   const response = await fetch(ARTICLES_URL, { credentials: "include" });
   const articles = await response.json();
-  return { articles };
+
+  return { 
+    articles,
+    user,
+    isLoggedIn
+  };
 }
