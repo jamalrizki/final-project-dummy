@@ -2,40 +2,35 @@ import { getDatabase } from "./database.js";
 
 export async function getArticles() {
   const db = await getDatabase();
-  const articles = await db.all("SELECT * FROM Articles");
+  const articles = await db.all(`
+    SELECT 
+      Articles.*, 
+      Users.username, 
+      Users.selectedAvatar as userAvatar
+    FROM Articles 
+    JOIN Users ON Articles.userId = Users.id`);
   return articles;
 }
 
 export async function addArticles(article) {
   const db = await getDatabase();
   const response = await db.run(
-    "INSERT INTO Articles (title, description, content, image, userId, username, userAvatar, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      article.title, 
-      article.description, 
-      article.content, 
-      article.image,
-      article.userId,
-      article.username,
-      article.userAvatar,
-      article.date
-    ]
+    "INSERT INTO Articles (title, description, content, image, userId, date) VALUES (?, ?, ?, ?, ?, ?)",
+    [article.title, article.description, article.content, article.image, article.userId, article.date]
   );
-  return {
-    id: response.lastID,
-    title: article.title,
-    description: article.description,
-    content: article.content,
-    image: article.image,
-    userId: article.userId,
-    username: article.username,
-    userAvatar: article.userAvatar,
-    date: article.date
-  };
+
+  return getArticleById(response.lastID);
 }
 
 export async function getArticleById(id) {
   const db = await getDatabase();
-  const article = await db.get("SELECT * FROM Articles WHERE id = ?", id);
+  const article = await db.get(`
+    SELECT 
+      Articles.*, 
+      Users.username, 
+      Users.selectedAvatar as userAvatar
+    FROM Articles 
+    JOIN Users ON Articles.userId = Users.id
+    WHERE Articles.id = ?`, id);
   return article;
 }

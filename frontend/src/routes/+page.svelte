@@ -17,20 +17,20 @@
 
 <main>
   {#if data.isLoggedIn}
-    <div class="welcome-section">
+    <div class="welcome">
       <h1>Welcome back, {data.user.firstName}!</h1>
-      <div class="user-info">
-        <img src={data.user.selectedAvatar} alt="User Avatar" class="user-avatar"/>
-        <div class="user-details">
+      <div class="info">
+        <img src={data.user.selectedAvatar}  class="avatar"/>
+        <div class="details">
           <p class="username">@{data.user.username}</p>
           <p class="blurb">{data.user.blurb}</p>
         </div>
       </div>
       
       {#if userArticles.length > 0}
-        <section class="my-articles">
+        <section class="articles">
           <h2>My Travel Stories</h2>
-          <div class="article-grid">
+          <div class="grid">
             {#each userArticles as article (article.id)}
               <ArticleCard {article} />
             {/each}
@@ -39,7 +39,7 @@
       {/if}
       
       <div class="actions">
-        <a href="/create" class="add-article-btn">Write New Travel Article</a>
+        <a href="/create" class="article-btn">Write New Travel Article</a>
       </div>
     </div>
   {/if}
@@ -51,7 +51,7 @@
       <p>Loading articles...</p>
     {:else}
       {#if featuredArticle}
-        <section class="featured-article">
+        <section class="featured">
           <ArticleCard article={featuredArticle} featured={true} />
         </section>
       {/if}
@@ -72,7 +72,7 @@
     padding: 20px;
   }
 
-  .welcome-section {
+  .welcome {
     margin-bottom: 40px;
     padding: 20px;
     background-color: #f8f9fa;
@@ -89,20 +89,20 @@
     color: #444;
   }
 
-  .user-info {
+  .info {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
   }
 
-  .user-avatar {
+  .avatar {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     margin-right: 15px;
   }
 
-  .user-details {
+  .details {
     flex: 1;
   }
 
@@ -121,7 +121,7 @@
     margin: 20px 0;
   }
 
-  .add-article-btn {
+  .article-btn {
     display: inline-block;
     padding: 10px 20px;
     background-color: #007bff;
@@ -131,15 +131,15 @@
     transition: background-color 0.2s;
   }
 
-  .add-article-btn:hover {
+  .article-btn:hover {
     background-color: #0056b3;
   }
 
-  .my-articles {
+  .articles {
     margin: 30px 0;
   }
 
-  .featured-article {
+  .featured {
     margin-bottom: 40px;
   }
 

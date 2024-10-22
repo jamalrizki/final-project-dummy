@@ -32,17 +32,14 @@ router.get("/", async (req, res) => {
 router.post("/", requiresAuthentication, upload.single('image'), async (req, res) => {
   const { title, description, content } = req.body;
   const image = req.file.filename;
-  const date = new Date().toISOString().split('T')[0];
-
+  
   const article = {
     title,
     description,
     content,
     image,
     userId: req.user.id,
-    username: req.user.username,
-    userAvatar: req.user.selectedAvatar,
-    date
+    date: new Date().toISOString().split('T')[0]
   };
 
   const dbMessage = await addArticles(article);
